@@ -36,14 +36,14 @@ fn main() {
                 } {
                     surface.resize(width, height).unwrap();
 
-                    let buffer = surface.buffer_mut().unwrap();
-                    let mut screen = PixelBuffer::new(buffer, height.into(), width.into());
+                    let mut buffer = surface.buffer_mut().unwrap();
+                    let mut screen = PixelBuffer::new(&mut buffer, height.into(), width.into());
                     screen.clear(0xFFFFFF);
                     text::draw(&mut screen, &fps_label);
                     text::draw(&mut screen, &lorem_label);
                     let fps: u32 = (1.0 / dt.elapsed().as_secs_f64()) as u32;
                     fps_label.set_text(format!("FPS: {}", fps));
-                    screen.buffer().present().unwrap();
+                    buffer.present().unwrap();
                 }
             }
             Event::AboutToWait => {
